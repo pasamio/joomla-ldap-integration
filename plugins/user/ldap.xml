@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="user">
+	<name>User - LDAP</name>
+	<author>Lalitanand Dandge</author>
+	<creationDate>June 2009</creationDate>
+	<copyright></copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>dandgelb@gmail.com</authorEmail>
+	<authorUrl>http://www.joomla.org/</authorUrl>
+	<version>1.5.1</version>
+	<description>LDAP User Plugin</description>
+	<files>
+		<filename plugin="ldap">ldap.php</filename>
+	</files>
+	<params>
+		<param type="sql" name="templateid" label="Select Template"
+			description="TEMPLATEDESC"
+			query="SELECT tid AS value, template_name AS templateid FROM #__ldap_template" />
+	</params>
+
+</install>
