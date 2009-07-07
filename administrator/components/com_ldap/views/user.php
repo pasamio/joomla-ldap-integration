@@ -17,7 +17,7 @@ class LdapViewUser
 		LdapViewUser::setUsersToolbar();
 		JHTML::_('behavior.tooltip');
 		?>
-			<form action="index.php?option=com_ldap" method="post" name="adminForm">
+			<form action="index.php" method="post" name="adminForm">
 				<table class="adminlist">
 					<thead>
 						<tr>
@@ -39,24 +39,20 @@ class LdapViewUser
 					$k = 0;
 					for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 						$row 			= &$rows[$i];
-						$link 			= JRoute::_( 'index.php?option=com_ldap&task=edit&cid[]='. $row->id );
-						$checked		= JHTML::_('grid.checkedout',   $row, $i );
-						//JError::raiseWarning(50, JText::_("D: ".$lists[$row->id]['insync']));						
+						$link		= JRoute::_( 'index.php?option=com_ldap&c=user&task=edit&uid[]='. $row->id );
+						$checked = '<input type="checkbox" id="cb' .$i. '" name="uid[]" value="'.$row->id.'" onclick="isChecked(this.checked);"/>';
 						$sync = $lists[$row->id]['insync'] ? true: false ;						
-						//$img 	= $sync ? 'publish_x.png' : 'tick.png';
 						$img 	= $sync ? 'tick.png': 'publish_x.png';
-						$task 	= $sync ? 'notask' : 'sync';
-						$alt 	= $sync ? JText::_( 'In Sync' ) : JText::_( 'Not in Sync' );
-						
+					
 					?>
 						<tr class="<?php echo "row$k"; ?>">
 							<td align="center"><?php echo $pageNav->getRowOffset($i); ?></td>
 							<td align="center"><?php echo $checked; ?></td>
 							<td><a href="<?php echo $link; ?>"> <?php echo $row->name; ?></a></td>
 							<td align="center"><?php echo $row->username;?></td>
-							<td align="center">
-								<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-									<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
+							 <td align="center">
+								
+									<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" />
 							</td>
 							<td align="center"><?php echo $lists[$row->id]['dn'];?></td>							
 						</tr>
