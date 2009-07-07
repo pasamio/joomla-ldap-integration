@@ -137,8 +137,7 @@ class LdapControllerUser extends JController
 		$uid		= JRequest::getVar( 'uid', array(), 'post', 'array' );
 		$task		= JRequest::getCmd( 'task' );
 		$n			= count( $uid );
-		JError::raiseWarning( 500, JText::_( 'items selected' . $n ) );
-	
+
 		//get the currently enable LDAP template
 		$params = &JComponentHelper::getParams( 'com_ldap' );
 
@@ -217,7 +216,6 @@ class LdapControllerUser extends JController
 			$result = $ldap->simple_search($rdnn);
 			if(count($result) == 1) {
 					
-				JError::raiseWarning(40, JText::_($rdnn . ' user in LDAP ' . $dnn . ' ' ));
 				$changed = $ldap->rename($dnn, $rdnn, null, true);// or die("Cannot rename");
 
 					if($changed) {
