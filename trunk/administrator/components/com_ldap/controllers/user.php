@@ -203,8 +203,8 @@ class LdapControllerUser extends JController
 
 			//Objectclass
 			$parts = split("\r\n",$objectclasses);//$objectclasses
-			for($i = 0; $i<count($parts);$i++) {
-				$ldapuser['objectclass'][$i] = $parts[$i];
+			for($j = 0; $j<count($parts);$j++) {
+				$ldapuser['objectclass'][$j] = $parts[$j];
 			}
 
 			//update dn
