@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+ <name>LDAP Integration</name>
+ <creationDate>June 2009</creationDate>
+ <author>Lalitanand Dandge</author>
+ <authorEmail>dandgelb@gmail.com</authorEmail>
+ <authorUrl></authorUrl>
+ <copyright>Copyright (C) 2009 Open Source Matters. All rights reserved.</copyright>
+ <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+ <version>1.0.0 alpha</version>
+ <description>The component is to manage LDAP integration with Joomla!</description>
+     <install>
+        <queries>
+            <query>
+                CREATE TABLE IF NOT EXISTS `#__ldap_config` (
+  				`id` int(11) NOT NULL AUTO_INCREMENT,
+  				`name` varchar(255) NOT NULL,
+  				`host` varchar(255) NOT NULL,
+  				`port` int(3) NOT NULL DEFAULT '0',
+  				`version3` tinyint(1) NOT NULL DEFAULT '0',
+  				`negotiate_tls` tinyint(1) NOT NULL DEFAULT '0',
+  				`follow_referrals` tinyint(1) NOT NULL DEFAULT '0',
+  				`basedn` varchar(255) NOT NULL,
+  				`connect_username` varchar(255) NOT NULL,
+  				`connect_password` varchar(255) NOT NULL,
+  				PRIMARY KEY (`id`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+            </query>
+            <query>
+            	CREATE TABLE IF NOT EXISTS `#__ldap_template` (
+  				`tid` int(11) NOT NULL AUTO_INCREMENT,
+  				`configid` int(11) NOT NULL,
+  				`template_name` varchar(255) NOT NULL,
+  				`container` varchar(255) NOT NULL,
+  				`rdn` varchar(255) NOT NULL,
+  				`userdn` varchar(255) NOT NULL,
+  				`attributes` text,
+  				`objectclasses` text,
+  				PRIMARY KEY (`tid`),
+  				KEY `tid` (`tid`),
+  				KEY `tid_2` (`tid`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+            </query>
+            <query>
+            	CREATE TABLE IF NOT EXISTS `#__ldap_group` (
+  				`groupid` int(11) NOT NULL auto_increment,
+  				`groupname` varchar(255) NOT NULL,
+  				`gtemplateid` int(11) NOT NULL,
+  				`utemplateid` int(11) NOT NULL,
+  				PRIMARY KEY  (`groupid`,`groupname`,`gtemplateid`,`utemplateid`),
+  				UNIQUE KEY `groupname` (`groupname`,`gtemplateid`,`utemplateid`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+            </query>
+             <query>
+            	CREATE TABLE IF NOT EXISTS `#__ldap_user_groups` (
+  				`uid` int(11) NOT NULL,
+  				`groupid` int(11) NOT NULL,
+  				PRIMARY KEY  (`uid`,`groupid`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            </query>
+            <query>
+            	INSERT INTO `#__components` (`name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`) VALUES
+('LDAP Integration', 'option=com_ldap', 0, 0, 'option=com_ldap', 'LDAP Templates', 'com_ldap', 0, 'js/ThemeOffice/component.png', 1, '', 1);
+            </query>
+        </queries>
+    </install>
+
+    <uninstall>
+        <queries>
+            <query>drop table if exists #__ldap_config</query>
+            <query>drop table if exists #__ldap_template</query>
+            <query>drop table if exists #__ldap_group</query>
+            <query>drop table if exists #__ldap_user_groups</query>
+        </queries>
+    </uninstall>
+ 
+ 
+ <administration>
+  <!-- Administration Menu Section -->
+   <files>
+	  <filename>admin.ldap.php</filename>
+	  <filename>config.xml</filename>
+	  <filename>index.html</filename>
+
+	  <filename>controllers/attributes.php</filename>
+	  <filename>controllers/config.php</filename>
+	  <filename>controllers/group.php</filename>
+	  <filename>controllers/template.php</filename>
+	  <filename>controllers/user.php</filename>
+	  <filename>controllers/usergroup.php</filename>
+	  <filename>controllers/index.html</filename>
+	  
+	  <filename>tables/attributemap.php</filename>
+	  <filename>tables/config.php</filename>
+	  <filename>tables/template.php</filename>
+	  <filename>tables/group.php</filename>
+	  <filename>tables/usergroup.php</filename>
+	  <filename>tables/index.html</filename>
+	  
+	  <filename>views/attributes.php</filename>
+	  <filename>views/config.php</filename>	  
+	  <filename>views/template.php</filename>
+	  <filename>views/user.php</filename>
+	  <filename>views/group.php</filename>
+	  <filename>views/usergroup.php</filename>
+	  <filename>views/index.html</filename>
+  </files>
+ </administration>
+</install>
