@@ -55,7 +55,7 @@ class LdapControllerUser extends JController
 		$db->setQuery( $query);
 		$template = $db->loadObject();
 		$rdn = $template->rdn;
-		$containter = $template->container;
+		$container = $template->container;
 		$configid = $template->configid;
 		$attributes = $template->attributes;
 		//fetch ldap configuration from database;
@@ -85,7 +85,10 @@ class LdapControllerUser extends JController
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 			= &$rows[$i];
 			$rdnn = str_replace("[username]", $row->username, $rdn);
-			$result = $ldap->simple_search($rdnn);
+			$filter = $rdnn;
+			$filters = array("($filter)");
+			//$result = $ldap->simple_search($rdnn);
+			$result = $ldap->search($filters, $container);
 			$sync = true;
 			if(count($result) == 1) {
 				$this->__checkUserSync($ldap,$result[0], $row->id, $attributes, $lists);
@@ -213,7 +216,11 @@ class LdapControllerUser extends JController
 			//new RDn
 			$rdnn = str_replace("[username]", $user->username, $rdn);
 			//search
-			$result = $ldap->simple_search($rdnn);
+			
+			$filter = $rdnn;
+			$filters = array("($filter)");
+			//$result = $ldap->simple_search($rdnn);
+			$result = $ldap->search($filters, $usercontainer);
 			if(count($result) == 1) {
 					
 				$changed = $ldap->rename($dnn, $rdnn, null, true);// or die("Cannot rename");
