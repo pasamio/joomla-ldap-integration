@@ -27,8 +27,8 @@ class LdapViewTemplate
 				onclick="checkAll(<?php echo count( $rows ); ?>);" /></th>
 			<th nowrap="nowrap" class="title">Name</th>
 			<th width="15%" nowrap="nowrap">Configuration</th>
-			<th width="25%" nowrap="nowrap">User Container</th>		
-			<th width="25%" nowrap="nowrap">User's DN</th>
+			<th width="25%" nowrap="nowrap">User/Group Container</th>		
+			<th width="25%" nowrap="nowrap">User/Group DN</th>
 			<th width="10%" nowrap="nowrap">RDN</th>
 		</tr>
 	</thead>
@@ -108,7 +108,7 @@ class LdapViewTemplate
 			<td><?php echo $lists['configid'];?></td>
 		</tr>
 		<tr>
-			<td width="20%" class="key"><label for="container"> <?php echo JText::_( 'User Container' ); ?>:
+			<td width="20%" class="key"><label for="container"> <?php echo JText::_( 'User/Group Container' ); ?>:
 			</label></td>
 			<td width="80%"><input class="inputbox" type="text" name="container"
 				id="container" size="50" value="<?php echo $row->container;?>" /></td>
@@ -120,7 +120,7 @@ class LdapViewTemplate
 				id="rdn" size="50" value="<?php echo $row->rdn;?>" /></td>
 		</tr>
 		<tr>
-			<td width="20%" class="key"><label for="userdn"> <?php echo JText::_( "User's DN" ); ?>:
+			<td width="20%" class="key"><label for="userdn"> <?php echo JText::_( "User/Group DN" ); ?>:
 			</label></td>
 			<td width="80%"><input class="inputbox" type="text" name="userdn"
 				id="userdn" size="50" value="<?php echo $row->userdn;?>" /></td>
