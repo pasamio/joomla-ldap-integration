@@ -2,5 +2,6 @@
 <config>
  <params>
   <param type="sql" name="templateid" label="Select Template" description="TEMPLATEDESC" query="SELECT tid AS value, template_name AS templateid FROM #__ldap_template" />
+  <param type="sql" name="gtemplateid" label="Select Group Template" description="TEMPLATEDESC" query="SELECT tid AS value, template_name AS gtemplateid FROM #__ldap_template" />
  </params>
 </config>
