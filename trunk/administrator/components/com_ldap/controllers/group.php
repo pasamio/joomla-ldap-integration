@@ -177,7 +177,6 @@ class LdapControllerGroup extends JController
 				continue;
 			} else {
 				$ldapgroup[$attrmap[0]] = $group[$attrmap[1]];
-				JError::raiseWarning(1,JText::sprintf($ldapgroup[$attrmap[0]].'==' . $group[$attrmap[1]]));
 			}
 		}
 
@@ -188,19 +187,18 @@ class LdapControllerGroup extends JController
 		}
 
 		//update dn
-		JError::raiseWarning(1,JText::sprintf('groupname = '. $group['groupname']));
-		JError::raiseWarning(1,JText::sprintf('groupdn = '. $groupdn));
+		
 		$dnn = str_replace("[groupname]", $group['groupname'], $groupdn); // new userdn
 		$dno = str_replace("[groupname]", $oldgroupname, $groupdn); //old userdn if changing the username
-		JError::raiseWarning(1,JText::sprintf('dnn = '. $dnn));
+		
 
 		//new RDn
-		JError::raiseWarning(1,JText::sprintf('rdn = '. $rdn));
+		
 		$rdnn = str_replace("[groupname]", $group['groupname'], $rdn);
 		//Old RDN
 		$rdno = str_replace("[groupname]", $oldgroupname, $rdn);
 			
-		JError::raiseWarning(1,JText::sprintf('rdnn = '. $rdnn));
+		
 		//search
 		$result = $ldap->simple_search($rdno);
 		if(count($result) == 1) {
@@ -217,7 +215,7 @@ class LdapControllerGroup extends JController
 			}
 
 		} else {
-			JError::raiseWarning(1,JText::sprintf('in else search'));
+			
 			if(!$this->_createGroup($ldap, $dnn, $ldapgroup))
 			JError::raiseWarning(45, JText::sprintf('Failed to create group: %s', $ldap->getErrorMsg()));
 		}
@@ -245,7 +243,7 @@ class LdapControllerGroup extends JController
 	}
 
 	function _createGroup(&$ldap, $dn, $ldapgroup) {
-		JError::raiseWarning(1,JText::sprintf('In createGroup'));
+		
 		return $ldap->create($dn,$ldapgroup); // or die('Failed to add '. $dn .': ' . $ldap->getErrorMsg());
 	}
 
