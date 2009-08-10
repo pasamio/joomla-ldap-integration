@@ -326,14 +326,10 @@ class LdapControllerUserGroup extends JController
 		 	//new RDn
 		 	$rdnn = str_replace("[username]", $user->username, $rdn);
 		 	//search
-		 	$filters = array("(objectclass=*)");
-		 	$result = $ldap->search($filters,$container);
-	
+		 		
 				$filters = array("($rdnn)");
 				$result = $ldap->search($filters,$container);
-				JError::raiseWarning(44, JText::sprintf($rdnn .'--' . count($result) .'==' . $dnn .' =  %s', $container));
 				//$n = 0;
-				for($i = 1, $m = count($result);$i <= $m; $i++ ) {
 					if($result[$i]['dn'] == $dnn) {
 						JError::raiseWarning(40, JText::_($dnn. ' already present.'));
 							
@@ -348,11 +344,10 @@ class LdapControllerUserGroup extends JController
 							}
 						}
 					} else {
-						JError::raiseWarning(40, JText::_($dnn. ' In else part .'));
 						if(!$this->_createUser($ldap, $dnn, $ldapuser))
 						JError::raiseWarning(45, JText::sprintf('Failed to create user: %s', $ldap->getErrorMsg()));
 					}
-				}
+				
 		 }
 		}
 		if($groupid[0] != 0)
