@@ -57,11 +57,7 @@
   				`groupid` int(11) NOT NULL,
   				PRIMARY KEY  (`uid`,`groupid`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-            </query>
-            <query>
-            	INSERT INTO `#__components` (`name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`) VALUES
-('LDAP Integration', 'option=com_ldap', 0, 0, 'option=com_ldap', 'LDAP Templates', 'com_ldap', 0, 'js/ThemeOffice/component.png', 1, '', 1);
-            </query>
+            </query>          
         </queries>
     </install>
 
@@ -76,6 +72,8 @@
  
  
  <administration>
+ <menu>LDAP Integration</menu>
+
   <!-- Administration Menu Section -->
    <files>
 	  <filename>admin.ldap.php</filename>
