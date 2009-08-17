@@ -9,8 +9,12 @@ class LdapViewGroup
 		JToolBarHelper::title( JText::_( 'LDAP Group Manager' ), 'generic.png' );
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
-		JToolBarHelper::preferences('com_ldap', '150');
+		//JToolBarHelper::preferences('com_ldap', '150');
 		JToolBarHelper::addNewX();
+		
+		JToolBarHelper::divider();
+
+		JToolBarHelper::customX('syncfromldap','generic.png','Sync from LDAP', 'Sync from LDAP');
 	}
 
 	function groups( &$rows, &$pageNav, &$lists )
@@ -18,18 +22,32 @@ class LdapViewGroup
 		LdapViewGroup::setGroupsToolbar();
 		JHTML::_('behavior.tooltip');
 		?>
-<form action="index.php?option=com_ldap&c=group" method="post" name="adminForm">
+<form action="index.php?option=com_ldap&c=group" method="post"
+	name="adminForm">
 <table class="adminlist">
+<?php
+
+for ($i=0, $n=count( $lists['gtemplates'] ); $i < $n; $i++) {
+	//$row 			= &$rows[$i];
+	?>
 	<thead>
+
+		<tr align="left">
+			<th colspan="6" nowrap="nowrap" align="left"><?php echo $lists['template_name'][$i]; ?>
+			( Container: <i><?php echo $lists['container'][$i]; ?> ) </i> <?php echo $lists['servererror'][$row->tid] ?>
+			</th>
+		</tr>
+		 
 		<tr>
-			<th width="20"><?php echo JText::_( 'Num' ); ?></th>
+			<th width="20"><?php echo JText::_( 'Num' ) ; ?></th>
 			<th width="20"><input type="checkbox" name="toggle" value=""
 				onclick="checkAll(<?php echo count( $rows ); ?>);" /></th>
 			<th nowrap="nowrap" class="title">Group Name</th>
 			<th width="20" nowrap="nowrap">Group's Template ID</th>
-			<th width="20" nowrap="nowrap">User's Template Id</th>	
-			<th width="20" nowrap="nowrap">Synchronized</th>
-			<th width="25%" nowrap="nowrap">LDAP Group</th>		
+			<th width="20" nowrap="nowrap">User's Template Id</th>
+			<!-- <th width="20" nowrap="nowrap">Synchronized</th> -->
+
+			<th width="25%" nowrap="nowrap">LDAP Group</th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -40,55 +58,74 @@ class LdapViewGroup
 	<tbody>
 	<?php
 	$k = 0;
-	for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-		$row = &$rows[$i];
+	for ($j=0, $m=count( $rows ); $j < $m; $j++) {
+		$row = &$rows[$j];
 		$link		= JRoute::_( 'index.php?option=com_ldap&c=group&task=edit&cid[]='. $row->groupid . '&groupname='.$row->groupname);
 		//$checked		= JHTML::_('grid.checkedout',   $row->tid, $i );
-		$checked = '<input type="checkbox" id="cb' .$i. '" name="cid[]" value="'.$row->groupid.'" onclick="isChecked(this.checked);"/>';
+		$checked = '<input type="checkbox" id="cb' .$j. '" name="cid[]" value="'.$row->groupid.'" onclick="isChecked(this.checked);"/>';
 		?>
 		<tr class="<?php echo "row$k"; ?>">
-			<td align="center"><?php echo $pageNav->getRowOffset($i); ?></td>
+			<td align="center"><?php echo $pageNav->getRowOffset($j); ?></td>
 			<td align="center"><?php echo $checked; ?></td>
 			<td><a href="<?php echo $link; ?>"> <?php echo $row->groupname; ?></a></td>
 			<td align="center"><?php echo $row->gtemplateid;?></td>
-			<td align="center"><?php echo $row->utemplateid; ?></td>	
-			<td align="center"><?php echo '='; ?></td>
-			<td align="center"><?php echo '='; ?></td>								
+			<td align="center"><?php echo $row->utemplateid; ?></td>
+			<!-- <td align="center"><?php echo '='; ?></td> -->
+			<td align="center"><?php echo $lists[$row->groupid]['dn']; $lastid=$row->groupid;?></td>
 		</tr>
 		<?php
 		$k = 1 - $k;
 	}
-	?>
-	</tbody>
+	$lastid++;
+	for($l = 0; $l<count($lists[$lists['gtemplates'][$i]]['inldap']);$l++) {
+		$checked = '<input type="checkbox" id="cb' .$i. '" name="ngid[]" value="'.$lists['gtemplates'][$i] ."-".$lastid.'-'.$lists[$lists['gtemplates'][$i]]['inldap'][$l].'" onclick="isChecked(this.checked);"/>';
+		?>
+	<tr class="<?php echo "row$k"; ?>">
+		<td align="center"><?php echo $lastid; ?></td>
+		<td align="center"><?php echo $checked; ?></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td align="center"><b>
+		<?php echo $lists[$lists['gtemplates'][$i]]['inldap'][$l]; $lastid++;?>
+		</b>
+		</td>
+
+	</tr>
+
+	<?php
+
+	}	
+}
+?>
 </table>
 
-<input type="hidden" name="c" value="group" /> 
-<input type="hidden" name="option" value="com_ldap" /> 
-<input type="hidden" name="task" value="" /> 
-<input type="hidden" name="tid" value="<?php echo $row->tid; ?>" /> 
-<input type="hidden" name="boxchecked" value="0" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<input type="hidden" name="c" value="group" /> <input type="hidden"
+	name="option" value="com_ldap" /> <input type="hidden" name="task"
+	value="" /> <input type="hidden" name="tid"
+	value="<?php echo $row->groupid; ?>" /> <input type="hidden"
+	name="boxchecked" value="0" /> <?php echo JHTML::_( 'form.token' ); ?>
 
 </form>
 	<?php
-	}
-	
-	function setGroupToolbar()
-	{
-		$task = JRequest::getVar( 'task', '', 'method', 'string');
-		JToolBarHelper::title( $task == 'add' ? JText::_( 'LDAP Group' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>' : JText::_( 'LDAP Group' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'generic.png' );
-		
-		JToolBarHelper::save( 'save' );
-		JToolBarHelper::apply('apply');
-		JToolBarHelper::cancel( 'cancel' );
-	}
+}
 
-	function group( &$row, &$lists )
-	{
-		LdapViewGroup::setGroupToolbar();
-		JRequest::setVar( 'hidemainmenu', 1 );
+function setGroupToolbar()
+{
+	$task = JRequest::getVar( 'task', '', 'method', 'string');
+	JToolBarHelper::title( $task == 'add' ? JText::_( 'LDAP Group' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>' : JText::_( 'LDAP Group' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'generic.png' );
 
-		?>
+	JToolBarHelper::save( 'save' );
+	JToolBarHelper::apply('apply');
+	JToolBarHelper::cancel( 'cancel' );
+}
+
+function group( &$row, &$lists )
+{
+	LdapViewGroup::setGroupToolbar();
+	JRequest::setVar( 'hidemainmenu', 1 );
+
+	?>
 <form action="index.php" method="post" name="adminForm">
 
 <div class="col100">
@@ -118,12 +155,10 @@ class LdapViewGroup
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="c" value="group" /> 
-<input type="hidden" name="option" value="com_ldap" /> 
-<input type="hidden" name="groupid" value="<?php echo $row->groupid; ?>" /> 
-<input type="hidden" name="task" value="" />
-<?php echo JHTML::_( 'form.token' ); ?>
-</form>
-		<?php
-	}
+<input type="hidden" name="c" value="group" /> <input type="hidden"
+	name="option" value="com_ldap" /> <input type="hidden" name="groupid"
+	value="<?php echo $row->groupid; ?>" /> <input type="hidden"
+	name="task" value="" /> <?php echo JHTML::_( 'form.token' ); ?></form>
+	<?php
 }
+	}
