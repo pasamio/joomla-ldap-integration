@@ -31,6 +31,7 @@
   				`tid` int(11) NOT NULL AUTO_INCREMENT,
   				`configid` int(11) NOT NULL,
   				`template_name` varchar(255) NOT NULL,
+  				`template_type` varchar(255) NOT NULL,
   				`container` varchar(255) NOT NULL,
   				`rdn` varchar(255) NOT NULL,
   				`userdn` varchar(255) NOT NULL,
