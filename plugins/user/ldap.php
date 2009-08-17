@@ -46,7 +46,10 @@ class plgUserLDAP extends JPlugin {
 	function onBeforeStoreUser($user, $isold, $success, $msg) {
 		if($user['username']) {
 			$this->params->set('oldusername', $user['username']);
-		}
+		} 
+		if(JRequest::getCmd('groupname')) {
+		 	JError::raiseWarning(1,JText::sprintf(JRequest::getCmd('groupname')));
+		 }
 		//return true;
 	}
 
@@ -143,8 +146,12 @@ class plgUserLDAP extends JPlugin {
 		//old RDN, get the last value of username for search
 		$rdno = str_replace("[username]", $this->params->get('oldusername'), $rdn);
 		//search
-		$result = $ldap->simple_search($rdno);
-		if(count($result) == 1) {
+		//$result = $ldap->simple_search($rdno);
+		$filters = array("($rdno)");
+		$result = $ldap->search($filters,$usercontainer);
+		//$result = 
+		//if(count($result) == 1) {
+		if($result[0]['dn'] == $dno) {
 			if($isnew) {
 				unset($ldapuser['userpassword']);
 				$app =& JFactory::getApplication();
