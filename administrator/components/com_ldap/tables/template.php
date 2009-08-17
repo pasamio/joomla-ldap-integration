@@ -5,6 +5,7 @@ class TableTemplate extends JTable
 	var $tid = null; //template id
 	var $configid = null; //configuration id
 	var $template_name = null; //template name
+	var $template_type = null; //template name	
 	var $container = null; //container where the user/groups has to added
 	var $rdn = null; //rdn
 	var $userdn = null; //user's dn
