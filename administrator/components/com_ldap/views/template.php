@@ -103,6 +103,12 @@ class LdapViewTemplate
 				id="template_name" size="50" value="<?php echo $row->template_name;?>" /></td>
 		</tr>
 		<tr>
+			<td width="20%" class="key"><label for="template_type"> <?php echo JText::_( 'Template Type' ); ?>:
+			</label></td>
+			<td width="80%"><input class="inputbox" type="text" name="template_type"
+				id="template_type" size="50" value="<?php echo $row->template_type;?>" /></td>
+		</tr>
+		<tr>
 			<td class="key"><label for="config_name"> <?php echo JText::_( 'LDAP Configuration' ); ?>:
 			</label></td>
 			<td><?php echo $lists['configid'];?></td>
