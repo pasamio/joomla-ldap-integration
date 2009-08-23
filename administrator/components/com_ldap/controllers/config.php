@@ -24,7 +24,7 @@ class LdapControllerConfig extends JController
 	function display()
 	{
 		global $mainframe;
-
+		$context = '';
 		$db =& JFactory::getDBO();
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0, 'int' );
