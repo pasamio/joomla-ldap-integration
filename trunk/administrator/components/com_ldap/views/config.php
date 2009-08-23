@@ -45,6 +45,7 @@ class LdapViewConfig
 					for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 						$row 			= &$rows[$i];
 						$link 			= JRoute::_( 'index.php?option=com_ldap&task=edit&cid[]='. $row->id );
+						$row->checked_out = 0;
 						$checked		= JHTML::_('grid.checkedout',   $row, $i );
 					?>
 						<tr class="<?php echo "row$k"; ?>">
@@ -70,7 +71,6 @@ class LdapViewConfig
 			<input type="hidden" name="c" value="config" /> 
 			<input type="hidden" name="option" value="com_ldap" /> 
 			<input type="hidden" name="task" value="" /> 
-			<input type="hidden" name="id" value="<?php echo $row->id; ?>" /> 
 			<input type="hidden" name="boxchecked" value="0" /> 
 			<?php echo JHTML::_( 'form.token' ); ?>
 		</form>

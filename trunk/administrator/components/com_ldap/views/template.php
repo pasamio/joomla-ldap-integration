@@ -65,7 +65,6 @@ class LdapViewTemplate
 <input type="hidden" name="c" value="template" /> 
 <input type="hidden" name="option" value="com_ldap" /> 
 <input type="hidden" name="task" value="" /> 
-<input type="hidden" name="tid" value="<?php echo $row->tid; ?>" /> 
 <input type="hidden" name="boxchecked" value="0" />
 <?php echo JHTML::_( 'form.token' ); ?>
 

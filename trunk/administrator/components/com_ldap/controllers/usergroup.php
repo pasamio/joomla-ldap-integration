@@ -81,6 +81,7 @@ class LdapControllerUserGroup extends JController
 		$lists['groupid'] 	= JHTML::_('select.genericlist',   $types, 'groupid', 'class="inputbox" size="1" ', 'value', 'text', "groupid" );
 
 		// state filter
+		$filter_state = '';
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );
 
 		// table ordering
@@ -88,6 +89,7 @@ class LdapControllerUserGroup extends JController
 		$lists['order']		= $filter_order;
 
 		// search filter
+		$search = '';
 		$lists['search']= $search;
 
 		//get the the uid and groupid mappings

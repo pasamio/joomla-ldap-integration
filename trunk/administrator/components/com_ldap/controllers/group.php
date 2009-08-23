@@ -24,6 +24,7 @@ class LdapControllerGroup extends JController
 	function display()
 	{
 		global $mainframe;
+		$context = '';
 		$params = &JComponentHelper::getParams( 'com_ldap' );
 		$db =& JFactory::getDBO();
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
